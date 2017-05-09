@@ -10,26 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var data_service_1 = require("./data.service");
-var MainformComponent = (function () {
-    function MainformComponent(dataService) {
-        this.dataService = dataService;
-        this.fields = [];
+var http_1 = require("@angular/http");
+require("rxjs/add/operator/toPromise");
+var DataService = (function () {
+    function DataService(http) {
+        this.http = http;
+        // this.rootUrl = 'http://randomdata.info:8081/api/';
+        this.rootUrl = 'http://192.168.33.10/api/';
     }
-    MainformComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.dataService.getFields()
-            .then(function (dataFields) { return _this.fields = dataFields.json(); });
+    DataService.prototype.getFields = function () {
+        console.log('querying URL ' + this.rootUrl);
+        return this.http.get(this.rootUrl + 'fields')
+            .toPromise();
     };
-    return MainformComponent;
+    return DataService;
 }());
-MainformComponent = __decorate([
-    core_1.Component({
-        selector: 'main-form',
-        templateUrl: './mainform.component.html',
-        providers: [data_service_1.DataService]
-    }),
-    __metadata("design:paramtypes", [data_service_1.DataService])
-], MainformComponent);
-exports.MainformComponent = MainformComponent;
-//# sourceMappingURL=mainform.component.js.map
+DataService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], DataService);
+exports.DataService = DataService;
+//# sourceMappingURL=data.service.js.map
