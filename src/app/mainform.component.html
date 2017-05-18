@@ -1,5 +1,10 @@
 <h1>Test Mainform component</h1>
 <!--<pre>{{fields}}</pre>-->
-<select name="field1">
-    <option *ngFor="let field of fields" value="{{field.name}}">{{field.label}}</option>
-</select>
+<form>
+    <button type="button" class="btn btn-default" (click)="addField()">+</button>
+
+    <div *ngFor="let formField of formFields; let index = index">
+        <field [types]="apiFields" [(fieldmodel)]="formFields[index]" name="field" ngDefaultControl></field>
+    </div>
+</form>
+{{ diagnostic }}

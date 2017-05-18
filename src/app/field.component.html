@@ -1,0 +1,6 @@
+<div>
+    <input type="text" [(ngModel)]="fieldmodel.name"/>
+    <select [(ngModel)]="fieldmodel.type">
+        <option *ngFor="let type of types" [value]="type.name">{{type.label}}</option>
+    </select>
+</div>

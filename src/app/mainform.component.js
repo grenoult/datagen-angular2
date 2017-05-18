@@ -11,16 +11,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var data_service_1 = require("./data.service");
+var formfield_1 = require("./formfield");
 var MainformComponent = (function () {
+    /**
+     * Constructor.
+     * @param dataService
+     */
     function MainformComponent(dataService) {
         this.dataService = dataService;
-        this.fields = [];
+        /**
+         * Available fields fetch from API.
+         * @type {Array}
+         */
+        this.apiFields = [];
+        /**
+         * Fields of the form.
+         * One will be created once we get apiFields
+         * to show a default field.
+         * @type {Array}
+         */
+        this.formFields = [];
     }
+    /**
+     * On init
+     */
     MainformComponent.prototype.ngOnInit = function () {
-        var _this = this;
         this.dataService.getFields()
-            .then(function (dataFields) { return _this.fields = dataFields.json(); });
+            .then(function (dataFields) {
+            // Pass api fields
+            this.apiFields = dataFields.json();
+            // Create new field in form
+            this.addField();
+        }.bind(this));
     };
+    /**
+     * When User adds a new field in the form
+     */
+    MainformComponent.prototype.addField = function () {
+        var newFormField = new formfield_1.FormField();
+        this.formFields.push(newFormField);
+    };
+    Object.defineProperty(MainformComponent.prototype, "diagnostic", {
+        get: function () { return JSON.stringify(this.formFields); },
+        enumerable: true,
+        configurable: true
+    });
     return MainformComponent;
 }());
 MainformComponent = __decorate([
