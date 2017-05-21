@@ -10,7 +10,40 @@ var core_1 = require("@angular/core");
 var FieldComponent = (function () {
     function FieldComponent() {
     }
-    FieldComponent.prototype.ngOnInit = function () { };
+    FieldComponent.prototype.ngOnInit = function () {
+        // console.log(this.fieldmodel);
+    };
+    /**
+     * Called when user changes field type.
+     * If there is options, we select the default (disabled)
+     * option by default.
+     * If there is no options, we delete a reference to subtype, if any.
+     */
+    FieldComponent.prototype.selectFieldType = function () {
+        if (this.types[this.fieldmodel.typeId].options) {
+            this.fieldmodel.subtypeId = 0;
+        }
+        else {
+            delete this.fieldmodel.subtypeId;
+        }
+    };
+    Object.defineProperty(FieldComponent.prototype, "diagnostic", {
+        /**
+         * Just for debug, to delete
+         * @returns {string}
+         */
+        get: function () {
+            if (this.types[this.fieldmodel.typeId] && this.types[this.fieldmodel.typeId].options) {
+                return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
+                // return JSON.stringify(this.types[this.fieldmodel.typeId]);
+            }
+            else {
+                return JSON.stringify(this.types[this.fieldmodel.typeId]);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return FieldComponent;
 }());
 FieldComponent = __decorate([

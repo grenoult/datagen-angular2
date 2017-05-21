@@ -7,6 +7,8 @@ export class FormField {
     textinput: boolean;
     textinputplaceholder: string;
     type: string;
+    typeId: number;
+    subtypeId: number;
     apiFields: Field[]; // TODO: Should this be private?
 
     // constructor(apiFields: Field[]) {

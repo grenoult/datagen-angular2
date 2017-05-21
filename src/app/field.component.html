@@ -1,6 +1,20 @@
 <div>
     <input type="text" [(ngModel)]="fieldmodel.name"/>
-    <select [(ngModel)]="fieldmodel.type">
-        <option *ngFor="let type of types" [value]="type.name">{{type.label}}</option>
+    <select
+            [(ngModel)]="fieldmodel.typeId"
+            (change)="selectFieldType()"
+    >
+        <!--
+            .slice(1) to skip first element of array t hat doesn't exist.
+            Array types start at 1.
+         -->
+        <option *ngFor="let type of types.slice(1)" [value]="type.id">{{type.label}}</option>
     </select>
+    <select *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].options" [(ngModel)]="fieldmodel.subtypeId">
+        <option selected disabled [value]="0">{{ types[fieldmodel.typeId].options.name }}</option>
+        <option *ngFor="let option of types[fieldmodel.typeId].options.options"
+                [value]="option.id"
+        >{{option.name}}</option>
+    </select>
+    {{ diagnostic }}
 </div>
