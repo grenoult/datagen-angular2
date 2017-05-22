@@ -85,8 +85,31 @@ export class MainformComponent implements OnInit {
      */
     addField() {
         let newFormField = new FormField();
+        let id = 1;
+
+        if (this.formFields.length > 0) {
+            let lastElement = this.formFields.slice(-1)[0];
+            if (lastElement && lastElement.id) {
+                id = lastElement.id + 1;
+            }
+        }
+
+        newFormField.id = id;
 
         this.formFields.push(newFormField);
+    }
+
+    /**
+     * Delete field with given ID.
+     *
+     * @param id
+     */
+    deleteField(id: number) {
+        for (let i in this.formFields) {
+            if (this.formFields[i].id === id) {
+                delete this.formFields[i];
+            }
+        }
     }
 
     get diagnostic() { return JSON.stringify(this.formFields); }

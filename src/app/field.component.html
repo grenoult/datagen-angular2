@@ -10,11 +10,21 @@
          -->
         <option *ngFor="let type of types.slice(1)" [value]="type.id">{{type.label}}</option>
     </select>
+
+    <!-- Sub type selection, if any -->
     <select *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].options" [(ngModel)]="fieldmodel.subtypeId">
         <option selected disabled [value]="0">{{ types[fieldmodel.typeId].options.name }}</option>
         <option *ngFor="let option of types[fieldmodel.typeId].options.options"
                 [value]="option.id"
         >{{option.name}}</option>
     </select>
-    {{ diagnostic }}
+
+    <!-- Text input, if any -->
+    <input type="text"
+           [(ngModel)]="fieldmodel.textinputvalue"
+           *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].textinput"
+           [placeholder]="types[fieldmodel.typeId].textinputplaceholder"
+    />
+
+    <!--{{ diagnostic }}-->
 </div>

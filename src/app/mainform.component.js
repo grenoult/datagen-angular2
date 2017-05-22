@@ -80,7 +80,27 @@ var MainformComponent = (function () {
      */
     MainformComponent.prototype.addField = function () {
         var newFormField = new formfield_1.FormField();
+        var id = 1;
+        if (this.formFields.length > 0) {
+            var lastElement = this.formFields.slice(-1)[0];
+            if (lastElement && lastElement.id) {
+                id = lastElement.id + 1;
+            }
+        }
+        newFormField.id = id;
         this.formFields.push(newFormField);
+    };
+    /**
+     * Delete field with given ID.
+     *
+     * @param id
+     */
+    MainformComponent.prototype.deleteField = function (id) {
+        for (var i in this.formFields) {
+            if (this.formFields[i].id === id) {
+                delete this.formFields[i];
+            }
+        }
     };
     Object.defineProperty(MainformComponent.prototype, "diagnostic", {
         get: function () { return JSON.stringify(this.formFields); },

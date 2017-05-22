@@ -7,10 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var FieldComponent = (function () {
-    function FieldComponent() {
+var FieldRowComponent = (function () {
+    function FieldRowComponent() {
     }
-    FieldComponent.prototype.ngOnInit = function () {
+    FieldRowComponent.prototype.ngOnInit = function () {
         // console.log(this.fieldmodel);
     };
     /**
@@ -19,22 +19,28 @@ var FieldComponent = (function () {
      * option by default.
      * If there is no options, we delete a reference to subtype, if any.
      */
-    FieldComponent.prototype.selectFieldType = function () {
+    FieldRowComponent.prototype.selectFieldType = function () {
         if (this.types[this.fieldmodel.typeId].options) {
             this.fieldmodel.subtypeId = 0;
         }
         else {
             delete this.fieldmodel.subtypeId;
         }
+        if (this.types[this.fieldmodel.typeId].textinput) {
+            this.fieldmodel.textinputvalue = '';
+        }
+        else {
+            delete this.fieldmodel.textinputvalue;
+        }
     };
-    Object.defineProperty(FieldComponent.prototype, "diagnostic", {
+    Object.defineProperty(FieldRowComponent.prototype, "diagnostic", {
         /**
          * Just for debug, to delete
          * @returns {string}
          */
         get: function () {
             if (this.types[this.fieldmodel.typeId] && this.types[this.fieldmodel.typeId].options) {
-                return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
+                // return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
                 // return JSON.stringify(this.types[this.fieldmodel.typeId]);
             }
             else {
@@ -44,14 +50,14 @@ var FieldComponent = (function () {
         enumerable: true,
         configurable: true
     });
-    return FieldComponent;
+    return FieldRowComponent;
 }());
-FieldComponent = __decorate([
+FieldRowComponent = __decorate([
     core_1.Component({
         selector: 'field',
         templateUrl: './field.component.html',
         inputs: ['types', 'fieldmodel']
     })
-], FieldComponent);
-exports.FieldComponent = FieldComponent;
+], FieldRowComponent);
+exports.FieldRowComponent = FieldRowComponent;
 //# sourceMappingURL=field.component.js.map

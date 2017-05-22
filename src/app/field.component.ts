@@ -9,7 +9,7 @@ import {FormField} from './formfield';
     inputs : ['types', 'fieldmodel']
 })
 
-export class FieldComponent implements OnInit {
+export class FieldRowComponent implements OnInit {
     /**
      * Types of fields from API.
      * @type {Array}
@@ -39,6 +39,12 @@ export class FieldComponent implements OnInit {
         } else {
             delete this.fieldmodel.subtypeId;
         }
+
+        if (this.types[this.fieldmodel.typeId].textinput) {
+            this.fieldmodel.textinputvalue = '';
+        } else {
+            delete this.fieldmodel.textinputvalue;
+        }
     }
 
     /**
@@ -47,7 +53,7 @@ export class FieldComponent implements OnInit {
      */
     get diagnostic() {
         if (this.types[this.fieldmodel.typeId] && this.types[this.fieldmodel.typeId].options) {
-            return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
+            // return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
             // return JSON.stringify(this.types[this.fieldmodel.typeId]);
         } else {
             return JSON.stringify(this.types[this.fieldmodel.typeId]);
