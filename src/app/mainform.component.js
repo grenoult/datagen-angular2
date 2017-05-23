@@ -91,6 +91,13 @@ var MainformComponent = (function () {
         this.formFields.push(newFormField);
     };
     /**
+     * Event listener to field deletion.
+     * @param id
+     */
+    MainformComponent.prototype.onFieldDeleted = function (id) {
+        this.deleteField(id);
+    };
+    /**
      * Delete field with given ID.
      *
      * @param id
@@ -98,7 +105,8 @@ var MainformComponent = (function () {
     MainformComponent.prototype.deleteField = function (id) {
         for (var i in this.formFields) {
             if (this.formFields[i].id === id) {
-                delete this.formFields[i];
+                // We use +i to convert i to number
+                this.formFields.splice(+i, 1);
             }
         }
     };

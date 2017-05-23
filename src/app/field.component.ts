@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {Field} from './field';
 import {FormField} from './formfield';
 
@@ -6,7 +6,8 @@ import {FormField} from './formfield';
 @Component({
     selector: 'field',
     templateUrl: './field.component.html',
-    inputs : ['types', 'fieldmodel']
+    inputs: ['types', 'fieldmodel', 'nbFormFields'],
+    // outputs: ['onDelete']
 })
 
 export class FieldRowComponent implements OnInit {
@@ -22,9 +23,16 @@ export class FieldRowComponent implements OnInit {
      */
     fieldmodel: FormField;
 
-    ngOnInit() {
+    /**
+     *Number of Form Fields
+     * @type {number}
+     */
+    nbFormFields: number;
 
-        // console.log(this.fieldmodel);
+    @Output() onDeleted = new EventEmitter<number>()
+
+    ngOnInit() {
+        console.log(this.nbFormFields);
     }
 
     /**
@@ -45,6 +53,13 @@ export class FieldRowComponent implements OnInit {
         } else {
             delete this.fieldmodel.textinputvalue;
         }
+    }
+
+    /**
+     * When user removes this field.
+     */
+    delete() {
+        this.onDeleted.emit(this.fieldmodel.id);
     }
 
     /**

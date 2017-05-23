@@ -4,7 +4,14 @@
     <button type="button" class="btn btn-default" (click)="addField()">+</button>
 
     <div *ngFor="let formField of formFields; let index = index">
-        <field [types]="apiFields" [(fieldmodel)]="formFields[index]" name="field" ngDefaultControl></field>
+        <field
+            [types]="apiFields"
+            [nbFormFields]="formFields.length"
+            [(fieldmodel)]="formFields[index]"
+            (onDeleted)="onFieldDeleted($event)"
+            name="field"
+            ngDefaultControl
+        ></field>
     </div>
 </form>
 {{ diagnostic }}

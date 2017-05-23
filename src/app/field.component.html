@@ -25,6 +25,11 @@
            *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].textinput"
            [placeholder]="types[fieldmodel.typeId].textinputplaceholder"
     />
+    <button type="button"
+            class="btn btn-default"
+            (click)="delete()"
+            *ngIf="nbFormFields > 1"
+    >-</button>
 
     <!--{{ diagnostic }}-->
 </div>

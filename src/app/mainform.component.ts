@@ -100,6 +100,14 @@ export class MainformComponent implements OnInit {
     }
 
     /**
+     * Event listener to field deletion.
+     * @param id
+     */
+    onFieldDeleted(id: number) {
+        this.deleteField(id);
+    }
+
+    /**
      * Delete field with given ID.
      *
      * @param id
@@ -107,7 +115,8 @@ export class MainformComponent implements OnInit {
     deleteField(id: number) {
         for (let i in this.formFields) {
             if (this.formFields[i].id === id) {
-                delete this.formFields[i];
+                // We use +i to convert i to number
+                this.formFields.splice(+i, 1);
             }
         }
     }
