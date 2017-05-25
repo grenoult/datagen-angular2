@@ -1,6 +1,7 @@
 <h1>Test Mainform component</h1>
 <!--<pre>{{fields}}</pre>-->
-<form>
+
+<form *ngIf="apiFields.length > 0">
     <button type="button" class="btn btn-default" (click)="addField()">+</button>
 
     <div *ngFor="let formField of formFields; let index = index">
@@ -14,4 +15,7 @@
         ></field>
     </div>
 </form>
+<p *ngIf="loading">
+    Loading...
+</p>
 {{ diagnostic }}

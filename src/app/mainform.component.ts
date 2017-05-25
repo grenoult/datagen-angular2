@@ -25,6 +25,12 @@ export class MainformComponent implements OnInit {
     formFields: FormField[] = [];
 
     /**
+     * Indicates if we are loading formFields.
+     * @type {boolean}
+     */
+    loading: boolean = false;
+
+    /**
      * Constructor.
      * @param dataService
      */
@@ -34,6 +40,7 @@ export class MainformComponent implements OnInit {
      * On init
      */
     ngOnInit() {
+        this.loading = true;
         this.dataService.getFields()
             .then(function(dataFields: any) {
                 // Pass api fields
@@ -73,7 +80,7 @@ export class MainformComponent implements OnInit {
 
                 this.apiFields = tmpObj;
 
-                console.log(this.apiFields);
+                this.loading = false;
 
                 // Create new field in form
                 this.addField();

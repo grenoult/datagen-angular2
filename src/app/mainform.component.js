@@ -31,11 +31,17 @@ var MainformComponent = (function () {
          * @type {Array}
          */
         this.formFields = [];
+        /**
+         * Indicates if we are loading formFields.
+         * @type {boolean}
+         */
+        this.loading = false;
     }
     /**
      * On init
      */
     MainformComponent.prototype.ngOnInit = function () {
+        this.loading = true;
         this.dataService.getFields()
             .then(function (dataFields) {
             // Pass api fields
@@ -70,7 +76,7 @@ var MainformComponent = (function () {
                 }
             }
             this.apiFields = tmpObj;
-            console.log(this.apiFields);
+            this.loading = false;
             // Create new field in form
             this.addField();
         }.bind(this));
