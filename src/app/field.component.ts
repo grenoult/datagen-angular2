@@ -29,10 +29,9 @@ export class FieldRowComponent implements OnInit {
      */
     nbFormFields: number;
 
-    @Output() onDeleted = new EventEmitter<number>()
+    @Output() onDeleted = new EventEmitter<number>();
 
     ngOnInit() {
-        console.log(this.nbFormFields);
     }
 
     /**
@@ -43,15 +42,22 @@ export class FieldRowComponent implements OnInit {
      */
     selectFieldType() {
         if (this.types[this.fieldmodel.typeId].options) {
-            this.fieldmodel.subtypeId = 0;
+            this.fieldmodel.subtype = ''; // TODO should we delete, here?
         } else {
-            delete this.fieldmodel.subtypeId;
+            delete this.fieldmodel.subtype;
         }
 
         if (this.types[this.fieldmodel.typeId].textinput) {
-            this.fieldmodel.textinputvalue = '';
+            this.fieldmodel.subtype = ''; // TODO should we delete, here?
         } else {
-            delete this.fieldmodel.textinputvalue;
+            delete this.fieldmodel.subtype;
+        }
+
+        for (let type of this.types) {
+            if (type && type.id == this.fieldmodel.typeId) {
+                this.fieldmodel.type = type.name;
+                break;
+            }
         }
     }
 
@@ -60,18 +66,5 @@ export class FieldRowComponent implements OnInit {
      */
     delete() {
         this.onDeleted.emit(this.fieldmodel.id);
-    }
-
-    /**
-     * Just for debug, to delete
-     * @returns {string}
-     */
-    get diagnostic() {
-        if (this.types[this.fieldmodel.typeId] && this.types[this.fieldmodel.typeId].options) {
-            // return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
-            // return JSON.stringify(this.types[this.fieldmodel.typeId]);
-        } else {
-            return JSON.stringify(this.types[this.fieldmodel.typeId]);
-        }
     }
 }

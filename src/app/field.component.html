@@ -12,7 +12,7 @@
     </select>
 
     <!-- Sub type selection, if any -->
-    <select *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].options" [(ngModel)]="fieldmodel.subtypeId">
+    <select *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].options" [(ngModel)]="fieldmodel.subtype">
         <option selected disabled [value]="0">{{ types[fieldmodel.typeId].options.name }}</option>
         <option *ngFor="let option of types[fieldmodel.typeId].options.options"
                 [value]="option.id"
@@ -21,7 +21,7 @@
 
     <!-- Text input, if any -->
     <input type="text"
-           [(ngModel)]="fieldmodel.textinputvalue"
+           [(ngModel)]="fieldmodel.subtype"
            *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].textinput"
            [placeholder]="types[fieldmodel.typeId].textinputplaceholder"
     />

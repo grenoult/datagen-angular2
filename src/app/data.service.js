@@ -18,10 +18,30 @@ var DataService = (function () {
         // this.rootUrl = 'http://randomdata.info:8081/api/';
         this.rootUrl = 'http://192.168.33.10/api/';
     }
+    /**
+     * Get fields available for generating data.
+     *
+     * @returns {Promise<T>}
+     */
     DataService.prototype.getFields = function () {
-        console.log('querying URL ' + this.rootUrl);
         return this.http.get(this.rootUrl + 'fields')
             .toPromise();
+    };
+    /**
+     * Send query to server to get fields.
+     * Parameter queryField should be similar to:
+     *  {"queryFields":[{"id":0,"type":"integer","subtype":"negative","fieldId":"0","name":"123"}],"records":10}
+     *
+     * @param queryFields
+     * @returns {Promise<T>}
+     */
+    DataService.prototype.submitForm = function (queryFields) {
+        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        var query = {
+            query: JSON.stringify(queryFields)
+        };
+        return this.http.post(this.rootUrl + 'generate', query, options).toPromise();
     };
     return DataService;
 }());

@@ -15,7 +15,6 @@ var FieldRowComponent = (function () {
         this.onDeleted = new core_1.EventEmitter();
     }
     FieldRowComponent.prototype.ngOnInit = function () {
-        console.log(this.nbFormFields);
     };
     /**
      * Called when user changes field type.
@@ -25,16 +24,23 @@ var FieldRowComponent = (function () {
      */
     FieldRowComponent.prototype.selectFieldType = function () {
         if (this.types[this.fieldmodel.typeId].options) {
-            this.fieldmodel.subtypeId = 0;
+            this.fieldmodel.subtype = ''; // TODO should we delete, here?
         }
         else {
-            delete this.fieldmodel.subtypeId;
+            delete this.fieldmodel.subtype;
         }
         if (this.types[this.fieldmodel.typeId].textinput) {
-            this.fieldmodel.textinputvalue = '';
+            this.fieldmodel.subtype = ''; // TODO should we delete, here?
         }
         else {
-            delete this.fieldmodel.textinputvalue;
+            delete this.fieldmodel.subtype;
+        }
+        for (var _i = 0, _a = this.types; _i < _a.length; _i++) {
+            var type = _a[_i];
+            if (type && type.id == this.fieldmodel.typeId) {
+                this.fieldmodel.type = type.name;
+                break;
+            }
         }
     };
     /**
@@ -43,23 +49,6 @@ var FieldRowComponent = (function () {
     FieldRowComponent.prototype.delete = function () {
         this.onDeleted.emit(this.fieldmodel.id);
     };
-    Object.defineProperty(FieldRowComponent.prototype, "diagnostic", {
-        /**
-         * Just for debug, to delete
-         * @returns {string}
-         */
-        get: function () {
-            if (this.types[this.fieldmodel.typeId] && this.types[this.fieldmodel.typeId].options) {
-                // return JSON.stringify(this.types[this.fieldmodel.typeId].options.options);
-                // return JSON.stringify(this.types[this.fieldmodel.typeId]);
-            }
-            else {
-                return JSON.stringify(this.types[this.fieldmodel.typeId]);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
     return FieldRowComponent;
 }());
 __decorate([

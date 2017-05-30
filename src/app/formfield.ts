@@ -7,5 +7,5 @@ export class FormField {
     textinputplaceholder: string;
     type: string;
     typeId: number;
-    subtypeId: number;
+    subtype: string;
 }

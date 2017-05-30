@@ -2,7 +2,7 @@
 <!--<pre>{{fields}}</pre>-->
 
 <form *ngIf="apiFields.length > 0">
-    <button type="button" class="btn btn-default" (click)="addField()">+</button>
+    <button type="button" (click)="addField()">+</button>
 
     <div *ngFor="let formField of formFields; let index = index">
         <field
@@ -14,6 +14,7 @@
             ngDefaultControl
         ></field>
     </div>
+    <button type="button" (click)="submitForm()">Submit</button>
 </form>
 <p *ngIf="loading">
     Loading...

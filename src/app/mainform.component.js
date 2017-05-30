@@ -45,7 +45,7 @@ var MainformComponent = (function () {
         this.dataService.getFields()
             .then(function (dataFields) {
             // Pass api fields
-            // this.apiFields = dataFields.json();
+            this.loading = false;
             var apiFields = dataFields.json();
             var tmpObj = [];
             for (var i in apiFields) {
@@ -76,7 +76,6 @@ var MainformComponent = (function () {
                 }
             }
             this.apiFields = tmpObj;
-            this.loading = false;
             // Create new field in form
             this.addField();
         }.bind(this));
@@ -115,6 +114,10 @@ var MainformComponent = (function () {
                 this.formFields.splice(+i, 1);
             }
         }
+    };
+    MainformComponent.prototype.submitForm = function () {
+        var queryFields = { 'queryFields': this.formFields, 'records': 10 };
+        this.dataService.submitForm(queryFields);
     };
     Object.defineProperty(MainformComponent.prototype, "diagnostic", {
         get: function () { return JSON.stringify(this.formFields); },

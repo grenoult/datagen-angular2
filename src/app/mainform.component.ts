@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService} from "./data.service";
-import { Field } from "./field";
-import {FormField} from "./formfield";
+import {DataService} from './data.service';
+import { Field } from './field';
+import {FormField} from './formfield';
 
 @Component({
     selector: 'main-form',
@@ -44,7 +44,8 @@ export class MainformComponent implements OnInit {
         this.dataService.getFields()
             .then(function(dataFields: any) {
                 // Pass api fields
-                // this.apiFields = dataFields.json();
+                this.loading = false;
+
                 let apiFields = dataFields.json();
                 let tmpObj = [];
 
@@ -79,8 +80,6 @@ export class MainformComponent implements OnInit {
                 }
 
                 this.apiFields = tmpObj;
-
-                this.loading = false;
 
                 // Create new field in form
                 this.addField();
@@ -126,6 +125,12 @@ export class MainformComponent implements OnInit {
                 this.formFields.splice(+i, 1);
             }
         }
+    }
+
+    submitForm() {
+        let queryFields = {'queryFields': this.formFields, 'records': 10};
+
+        this.dataService.submitForm(queryFields);
     }
 
     get diagnostic() { return JSON.stringify(this.formFields); }
