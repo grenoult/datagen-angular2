@@ -36,6 +36,11 @@ var MainformComponent = (function () {
          * @type {boolean}
          */
         this.loading = false;
+        /**
+         * Number of records to get from API.
+         * @type {number}
+         */
+        this.nbRecords = '10';
     }
     /**
      * On init
@@ -116,11 +121,19 @@ var MainformComponent = (function () {
         }
     };
     MainformComponent.prototype.submitForm = function () {
-        var queryFields = { 'queryFields': this.formFields, 'records': 10 };
+        var queryFields = { 'queryFields': this.formFields, 'records': this.nbRecords };
         this.dataService.submitForm(queryFields);
     };
+    /**
+     * Called when number of records changes from User.
+     *
+     * @param newValue
+     */
+    MainformComponent.prototype.onNbRecordChange = function (newValue) {
+        this.nbRecords = newValue;
+    };
     Object.defineProperty(MainformComponent.prototype, "diagnostic", {
-        get: function () { return JSON.stringify(this.formFields); },
+        get: function () { return JSON.stringify(this.nbRecords); },
         enumerable: true,
         configurable: true
     });
@@ -130,7 +143,8 @@ MainformComponent = __decorate([
     core_1.Component({
         selector: 'main-form',
         templateUrl: './mainform.component.html',
-        providers: [data_service_1.DataService]
+        providers: [data_service_1.DataService],
+        inputs: ['nbRecords']
     }),
     __metadata("design:paramtypes", [data_service_1.DataService])
 ], MainformComponent);

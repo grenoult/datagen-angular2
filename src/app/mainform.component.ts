@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from './data.service';
-import { Field } from './field';
+import {Field} from './field';
 import {FormField} from './formfield';
 
 @Component({
     selector: 'main-form',
     templateUrl: './mainform.component.html',
-    providers: [DataService]
+    providers: [DataService],
+    inputs: ['nbRecords']
 })
 
 export class MainformComponent implements OnInit {
@@ -29,6 +30,12 @@ export class MainformComponent implements OnInit {
      * @type {boolean}
      */
     loading: boolean = false;
+
+    /**
+     * Number of records to get from API.
+     * @type {number}
+     */
+    nbRecords: string = '10';
 
     /**
      * Constructor.
@@ -128,10 +135,19 @@ export class MainformComponent implements OnInit {
     }
 
     submitForm() {
-        let queryFields = {'queryFields': this.formFields, 'records': 10};
+        let queryFields = {'queryFields': this.formFields, 'records': this.nbRecords};
 
         this.dataService.submitForm(queryFields);
     }
 
-    get diagnostic() { return JSON.stringify(this.formFields); }
+    /**
+     * Called when number of records changes from User.
+     *
+     * @param newValue
+     */
+    onNbRecordChange(newValue: string) {
+        this.nbRecords = newValue;
+    }
+
+    get diagnostic() { return JSON.stringify(this.nbRecords); }
 }
