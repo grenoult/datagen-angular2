@@ -7,10 +7,11 @@ import { MainformComponent } from './mainform.component';
 import { FieldRowComponent } from './field.component';
 import { DataService }   from './data.service';
 import {FormsModule} from '@angular/forms';
+import {ResultHtmlComponent} from "./resulthtml.component";
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, FormsModule ],
-  declarations: [ AppComponent, MainformComponent, FieldRowComponent ],
+  declarations: [ AppComponent, MainformComponent, FieldRowComponent, ResultHtmlComponent ],
   bootstrap:    [ AppComponent ],
   providers:    [ DataService ]
 })

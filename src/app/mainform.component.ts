@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from './data.service';
 import {Field} from './field';
 import {FormField} from './formfield';
+import {ResultHtmlComponent} from './resulthtml.component';
 
 @Component({
     selector: 'main-form',
@@ -11,6 +12,8 @@ import {FormField} from './formfield';
 })
 
 export class MainformComponent implements OnInit {
+    @ViewChild(ResultHtmlComponent) resultHtml: ResultHtmlComponent;
+
     /**
      * Available fields fetch from API.
      * @type {Array}
@@ -33,9 +36,21 @@ export class MainformComponent implements OnInit {
 
     /**
      * Number of records to get from API.
-     * @type {number}
+     * @type {string}
      */
     nbRecords: string = '10';
+
+    /**
+     * Result of query
+     * @type {Array}
+     */
+    result: Object[] = [];
+
+    /**
+     * Result type of query
+     * @type {Array}
+     */
+    resultType: string = 'html';
 
     /**
      * Constructor.
@@ -137,7 +152,19 @@ export class MainformComponent implements OnInit {
     submitForm() {
         let queryFields = {'queryFields': this.formFields, 'records': this.nbRecords};
 
-        this.dataService.submitForm(queryFields);
+        this.loading = true;
+
+        this.dataService.submitForm(queryFields)
+            .then((response) => {
+                this.result = response.json();
+                this.resultHtml.formatResult(this.result);
+                // this.formatResult();
+                this.loading = false;
+            }).catch((ex) => {
+                console.log(ex);
+                this.loading = false;
+            })
+        ;
     }
 
     /**
@@ -149,5 +176,14 @@ export class MainformComponent implements OnInit {
         this.nbRecords = newValue;
     }
 
-    get diagnostic() { return JSON.stringify(this.nbRecords); }
+    /**
+     * Called when result type changes from User.
+     *
+     * @param newValue
+     */
+    onResultTypeChange(newValue: string) {
+        this.resultType = newValue;
+    }
+
+    get diagnostic() { return JSON.stringify(this.result); }
 }

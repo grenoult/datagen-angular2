@@ -14,6 +14,7 @@ var mainform_component_1 = require("./mainform.component");
 var field_component_1 = require("./field.component");
 var data_service_1 = require("./data.service");
 var forms_1 = require("@angular/forms");
+var resulthtml_component_1 = require("./resulthtml.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -22,7 +23,7 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule],
-        declarations: [app_component_1.AppComponent, mainform_component_1.MainformComponent, field_component_1.FieldRowComponent],
+        declarations: [app_component_1.AppComponent, mainform_component_1.MainformComponent, field_component_1.FieldRowComponent, resulthtml_component_1.ResultHtmlComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [data_service_1.DataService]
     })

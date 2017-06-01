@@ -1,0 +1,7 @@
+<table *ngIf="result.length > 0">
+    <tr *ngFor="let record of result">
+        <td *ngFor="let column of record">
+            {{ column }}
+        </td>
+    </tr>
+</table>

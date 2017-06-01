@@ -7,7 +7,6 @@ import {FormField} from './formfield';
     selector: 'field',
     templateUrl: './field.component.html',
     inputs: ['types', 'fieldmodel', 'nbFormFields'],
-    // outputs: ['onDelete']
 })
 
 export class FieldRowComponent implements OnInit {

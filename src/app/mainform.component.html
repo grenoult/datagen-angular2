@@ -21,10 +21,16 @@
             <option value="100">100</option>
             <option value="500">500</option>
         </select>
+        <select name="resultType" [ngModel]="resultType" (ngModelChange)="onResultTypeChange($event)">
+            <option value="html">HTML</option>
+            <option value="csv">CSV</option>
+            <option value="sql">SQL</option>
+        </select>
     </div>
     <button type="button" (click)="submitForm()">Submit</button>
 </form>
 <p *ngIf="loading">
     Loading...
 </p>
+<resulthtml *ngIf="resultType == 'html'"></resulthtml>
 {{ diagnostic }}

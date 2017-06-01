@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var data_service_1 = require("./data.service");
 var formfield_1 = require("./formfield");
+var resulthtml_component_1 = require("./resulthtml.component");
 var MainformComponent = (function () {
     /**
      * Constructor.
@@ -38,9 +39,19 @@ var MainformComponent = (function () {
         this.loading = false;
         /**
          * Number of records to get from API.
-         * @type {number}
+         * @type {string}
          */
         this.nbRecords = '10';
+        /**
+         * Result of query
+         * @type {Array}
+         */
+        this.result = [];
+        /**
+         * Result type of query
+         * @type {Array}
+         */
+        this.resultType = 'html';
     }
     /**
      * On init
@@ -121,8 +132,19 @@ var MainformComponent = (function () {
         }
     };
     MainformComponent.prototype.submitForm = function () {
+        var _this = this;
         var queryFields = { 'queryFields': this.formFields, 'records': this.nbRecords };
-        this.dataService.submitForm(queryFields);
+        this.loading = true;
+        this.dataService.submitForm(queryFields)
+            .then(function (response) {
+            _this.result = response.json();
+            _this.resultHtml.formatResult(_this.result);
+            // this.formatResult();
+            _this.loading = false;
+        }).catch(function (ex) {
+            console.log(ex);
+            _this.loading = false;
+        });
     };
     /**
      * Called when number of records changes from User.
@@ -132,13 +154,25 @@ var MainformComponent = (function () {
     MainformComponent.prototype.onNbRecordChange = function (newValue) {
         this.nbRecords = newValue;
     };
+    /**
+     * Called when result type changes from User.
+     *
+     * @param newValue
+     */
+    MainformComponent.prototype.onResultTypeChange = function (newValue) {
+        this.resultType = newValue;
+    };
     Object.defineProperty(MainformComponent.prototype, "diagnostic", {
-        get: function () { return JSON.stringify(this.nbRecords); },
+        get: function () { return JSON.stringify(this.result); },
         enumerable: true,
         configurable: true
     });
     return MainformComponent;
 }());
+__decorate([
+    core_1.ViewChild(resulthtml_component_1.ResultHtmlComponent),
+    __metadata("design:type", resulthtml_component_1.ResultHtmlComponent)
+], MainformComponent.prototype, "resultHtml", void 0);
 MainformComponent = __decorate([
     core_1.Component({
         selector: 'main-form',
