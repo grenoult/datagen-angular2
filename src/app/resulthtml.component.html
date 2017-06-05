@@ -1,7 +1,16 @@
-<table *ngIf="result.length > 0">
-    <tr *ngFor="let record of result">
-        <td *ngFor="let column of record">
-            {{ column }}
-        </td>
-    </tr>
-</table>
+{{ resultType }}
+<div *ngIf="result.length > 0">
+    <!-- HTML -->
+    <table *ngIf="resultType == 'html'">
+        <tr *ngFor="let record of result">
+            <td *ngFor="let column of record">
+                {{ column }}
+            </td>
+        </tr>
+    </table>
+
+    <!-- CSV -->
+    <pre *ngIf="resultType == 'csv'">
+{{ resultCsv }}
+    </pre>
+</div>

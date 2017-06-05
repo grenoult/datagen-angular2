@@ -3,11 +3,16 @@ import {Component, OnInit} from '@angular/core';
 @Component({
     selector: 'resulthtml',
     templateUrl: './resulthtml.component.html',
+    inputs: ['resultType']
 })
 
 
-export class ResultHtmlComponent implements OnInit {
+export class ResultComponent implements OnInit {
     result: any[] = [];
+
+    resultType: string;
+
+    resultCsv: string;
 
     ngOnInit() {};
 
@@ -18,6 +23,8 @@ export class ResultHtmlComponent implements OnInit {
     formatResult(result: Object[]) {
         let newResult = [];
         let i = 0;
+        let resultCsv = '';
+        let resultHeaderCsv = '';
 
         for (let record of result) {
             if (newResult[i] === undefined) {
@@ -29,14 +36,18 @@ export class ResultHtmlComponent implements OnInit {
                     // Header
                     if (i === 0) {
                         newResult[i].push(j);
+                        resultHeaderCsv = resultHeaderCsv + j + ';';
                     }
                     // Column
                     newResult[i + 1].push(record[j]);
+                    resultCsv = resultCsv + record[j] + ';';
                 }
             }
+            resultCsv = resultCsv.slice(0, -1) + '\n';
             i++;
         }
 
         this.result = newResult;
+        this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
     }
 }

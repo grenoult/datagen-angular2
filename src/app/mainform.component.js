@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var data_service_1 = require("./data.service");
 var formfield_1 = require("./formfield");
-var resulthtml_component_1 = require("./resulthtml.component");
+var result_component_1 = require("./result.component");
 var MainformComponent = (function () {
     /**
      * Constructor.
@@ -170,8 +170,8 @@ var MainformComponent = (function () {
     return MainformComponent;
 }());
 __decorate([
-    core_1.ViewChild(resulthtml_component_1.ResultHtmlComponent),
-    __metadata("design:type", resulthtml_component_1.ResultHtmlComponent)
+    core_1.ViewChild(result_component_1.ResultComponent),
+    __metadata("design:type", result_component_1.ResultComponent)
 ], MainformComponent.prototype, "resultHtml", void 0);
 MainformComponent = __decorate([
     core_1.Component({

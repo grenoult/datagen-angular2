@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from './data.service';
 import {Field} from './field';
 import {FormField} from './formfield';
-import {ResultHtmlComponent} from './resulthtml.component';
+import {ResultComponent} from './result.component';
 
 @Component({
     selector: 'main-form',
@@ -12,7 +12,7 @@ import {ResultHtmlComponent} from './resulthtml.component';
 })
 
 export class MainformComponent implements OnInit {
-    @ViewChild(ResultHtmlComponent) resultHtml: ResultHtmlComponent;
+    @ViewChild(ResultComponent) resultHtml: ResultComponent;
 
     /**
      * Available fields fetch from API.

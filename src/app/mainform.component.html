@@ -32,5 +32,5 @@
 <p *ngIf="loading">
     Loading...
 </p>
-<resulthtml *ngIf="resultType == 'html'"></resulthtml>
+<resulthtml [resultType]="resultType"></resulthtml>
 {{ diagnostic }}

@@ -7,17 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var ResultHtmlComponent = (function () {
-    function ResultHtmlComponent() {
+var ResultComponent = (function () {
+    function ResultComponent() {
         this.result = [];
     }
-    ResultHtmlComponent.prototype.ngOnInit = function () { };
+    ResultComponent.prototype.ngOnInit = function () { };
     ;
     /**
      * Transform result variable from array of objects to array of arrays.
      * This is easier to deal with in *ngFor loops.
      */
-    ResultHtmlComponent.prototype.formatResult = function (result) {
+    ResultComponent.prototype.formatResult = function (result) {
         var newResult = [];
         var i = 0;
         var resultCsv = '';
@@ -46,14 +46,14 @@ var ResultHtmlComponent = (function () {
         this.result = newResult;
         this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
     };
-    return ResultHtmlComponent;
+    return ResultComponent;
 }());
-ResultHtmlComponent = __decorate([
+ResultComponent = __decorate([
     core_1.Component({
         selector: 'resulthtml',
         templateUrl: './resulthtml.component.html',
         inputs: ['resultType']
     })
-], ResultHtmlComponent);
-exports.ResultHtmlComponent = ResultHtmlComponent;
-//# sourceMappingURL=resulthtml.component.js.map
+], ResultComponent);
+exports.ResultComponent = ResultComponent;
+//# sourceMappingURL=result.component.js.map
