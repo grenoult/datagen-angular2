@@ -22,6 +22,8 @@ var ResultComponent = (function () {
         var i = 0;
         var resultCsv = '';
         var resultHeaderCsv = '';
+        var resultSql = '';
+        var resultHeaderSql = 'INSERT INTO table_name(';
         for (var _i = 0, result_1 = result; _i < result_1.length; _i++) {
             var record = result_1[_i];
             if (newResult[i] === undefined) {
@@ -34,17 +36,21 @@ var ResultComponent = (function () {
                     if (i === 0) {
                         newResult[i].push(j);
                         resultHeaderCsv = resultHeaderCsv + j + ';';
+                        resultHeaderSql = resultHeaderSql + j + ', ';
                     }
                     // Column
                     newResult[i + 1].push(record[j]);
                     resultCsv = resultCsv + record[j] + ';';
+                    resultSql = resultSql + '"' + record[j] + '", ';
                 }
             }
             resultCsv = resultCsv.slice(0, -1) + '\n';
+            resultSql = resultSql.slice(0, -2) + '),\n(';
             i++;
         }
         this.result = newResult;
         this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
+        this.resultSql = resultHeaderSql.slice(0, -2) + ') VALUES \n(' + resultSql.slice(0, -3) + ';';
     };
     return ResultComponent;
 }());

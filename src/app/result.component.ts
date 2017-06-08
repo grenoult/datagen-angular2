@@ -14,6 +14,8 @@ export class ResultComponent implements OnInit {
 
     resultCsv: string;
 
+    resultSql: string;
+
     ngOnInit() {};
 
     /**
@@ -25,6 +27,8 @@ export class ResultComponent implements OnInit {
         let i = 0;
         let resultCsv = '';
         let resultHeaderCsv = '';
+        let resultSql = '';
+        let resultHeaderSql = 'INSERT INTO table_name(';
 
         for (let record of result) {
             if (newResult[i] === undefined) {
@@ -37,17 +41,21 @@ export class ResultComponent implements OnInit {
                     if (i === 0) {
                         newResult[i].push(j);
                         resultHeaderCsv = resultHeaderCsv + j + ';';
+                        resultHeaderSql = resultHeaderSql + j + ', ';
                     }
                     // Column
                     newResult[i + 1].push(record[j]);
                     resultCsv = resultCsv + record[j] + ';';
+                    resultSql = resultSql + '"' + record[j] + '", ';
                 }
             }
             resultCsv = resultCsv.slice(0, -1) + '\n';
+            resultSql = resultSql.slice(0, -2) + '),\n(';
             i++;
         }
 
         this.result = newResult;
         this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
+        this.resultSql = resultHeaderSql.slice(0, -2) + ') VALUES \n(' + resultSql.slice(0, -3) + ';';
     }
 }
