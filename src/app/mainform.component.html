@@ -1,36 +1,32 @@
 <h1>Test Mainform component</h1>
-<!--<pre>{{fields}}</pre>-->
+<pre>{{fields}}</pre>
 
-<form *ngIf="apiFields.length > 0">
-    <button type="button" (click)="addField()">+</button>
-
-    <div *ngFor="let formField of formFields; let index = index">
-        <field
-            [types]="apiFields"
-            [nbFormFields]="formFields.length"
-            [(fieldmodel)]="formFields[index]"
-            (onDeleted)="onFieldDeleted($event)"
-            name="field"
-            ngDefaultControl
-        ></field>
+<h3><i>FormControl in a FormGroup</i></h3>
+<form [formGroup]="mainForm" novalidate *ngIf="apiFields.length > 0">
+    <div class="form-group">
+        <button type="button" (click)="addField()">+</button>
+        <div formArrayName="fields">
+            <div *ngFor="let field of fields.controls; let i=index" [formGroupName]="i">
+                <field
+                        name="field"
+                        ngDefaultControl
+                        [types]="apiFields"
+                        [fieldForm]="field"
+                ></field>
+                <button type="button"
+                        class="btn btn-default"
+                        (click)="deleteField(i)"
+                        *ngIf="fields.length > 1"
+                >-</button>
+                <hr/>
+            </div>
+        </div>
     </div>
-    <div>
-        <select name="nbRecords" [ngModel]="nbRecords" (ngModelChange)="onNbRecordChange($event)">
-            <option value="10">10</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="500">500</option>
-        </select>
-        <select name="resultType" [ngModel]="resultType" (ngModelChange)="onResultTypeChange($event)">
-            <option value="html">HTML</option>
-            <option value="csv">CSV</option>
-            <option value="sql">SQL</option>
-        </select>
-    </div>
-    <button type="button" (click)="submitForm()">Submit</button>
 </form>
 <p *ngIf="loading">
     Loading...
 </p>
+<p>Main Form value: {{ mainForm.value | json }}</p>
+<p>Main Form status: {{ mainForm.status | json }}</p>
 <resulthtml [resultType]="resultType"></resulthtml>
 {{ diagnostic }}

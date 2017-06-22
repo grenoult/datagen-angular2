@@ -1,8 +1,8 @@
-<div>
-    <input type="text" [(ngModel)]="fieldmodel.name"/>
+<form [formGroup]="fieldForm">
+    <input type="text" formControlName="name" required/>
     <select
-            [(ngModel)]="fieldmodel.typeId"
             (change)="selectFieldType()"
+            formControlName="typeId"
     >
         <!--
             .slice(1) to skip first element of array t hat doesn't exist.
@@ -12,24 +12,26 @@
     </select>
 
     <!-- Sub type selection, if any -->
-    <select *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].options" [(ngModel)]="fieldmodel.subtype">
-        <option selected disabled [value]="0">{{ types[fieldmodel.typeId].options.name }}</option>
-        <option *ngFor="let option of types[fieldmodel.typeId].options.options"
+    <span *ngIf="fieldForm.get('typeId').value"  >{{ fieldForm.get('typeId').value }}</span>
+    <select *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].options"
+            required
+            formControlName="subtype"
+    >
+        <option selected disabled [value]="0">{{ types[fieldForm.get('typeId').value].options.name }}</option>
+        <option *ngFor="let option of types[fieldForm.get('typeId').value].options.options"
                 [value]="option.id"
         >{{option.name}}</option>
     </select>
 
-    <!-- Text input, if any -->
+    <!-- Sub type text input, if any -->
     <input type="text"
-           [(ngModel)]="fieldmodel.subtype"
-           *ngIf="fieldmodel.typeId && types[fieldmodel.typeId].textinput"
-           [placeholder]="types[fieldmodel.typeId].textinputplaceholder"
+           *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].textinput"
+           [placeholder]="types[fieldForm.get('typeId').value].textinputplaceholder"
+           required
+           formControlName="subtype"
     />
-    <button type="button"
-            class="btn btn-default"
-            (click)="delete()"
-            *ngIf="nbFormFields > 1"
-    >-</button>
 
     <!--{{ diagnostic }}-->
-</div>
+    <p>Form value: {{ fieldForm.value | json }}</p>
+    <p>Form status: {{ fieldForm.status | json }}</p>
+</form>

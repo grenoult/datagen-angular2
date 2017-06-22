@@ -1,15 +1,15 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import {Field} from './field';
-import {FormField} from './formfield';
+import {Validators, FormGroup} from '@angular/forms';
 
 
 @Component({
     selector: 'field',
     templateUrl: './field.component.html',
-    inputs: ['types', 'fieldmodel', 'nbFormFields'],
+    inputs: ['types', 'fieldForm'],
 })
 
-export class FieldRowComponent implements OnInit {
+export class FieldRowComponent {
     /**
      * Types of fields from API.
      * @type {Array}
@@ -17,21 +17,10 @@ export class FieldRowComponent implements OnInit {
     types: Field[];
 
     /**
-     * Model of current field component.
-     * @type {FormField}
+     * Form Group
+     * @type {FormGroup}
      */
-    fieldmodel: FormField;
-
-    /**
-     *Number of Form Fields
-     * @type {number}
-     */
-    nbFormFields: number;
-
-    @Output() onDeleted = new EventEmitter<number>();
-
-    ngOnInit() {
-    }
+    fieldForm: FormGroup;
 
     /**
      * Called when user changes field type.
@@ -40,30 +29,22 @@ export class FieldRowComponent implements OnInit {
      * If there is no options, we delete a reference to subtype, if any.
      */
     selectFieldType() {
-        if (this.types[this.fieldmodel.typeId].options) {
-            this.fieldmodel.subtype = ''; // TODO should we delete, here?
-        } else {
-            delete this.fieldmodel.subtype;
-        }
+        let typeId = this.fieldForm.get('typeId').value;
 
-        if (this.types[this.fieldmodel.typeId].textinput) {
-            this.fieldmodel.subtype = ''; // TODO should we delete, here?
-        } else {
-            delete this.fieldmodel.subtype;
-        }
-
+        // Check if subtype is mandatory
         for (let type of this.types) {
-            if (type && type.id == this.fieldmodel.typeId) {
-                this.fieldmodel.type = type.name;
-                break;
+            if (type && type.id == typeId) {
+                if (type.options || type.textinput) {
+                    this.fieldForm.controls.subtype.validator = Validators.required;
+                } else {
+                    this.fieldForm.controls.subtype.validator = undefined;
+                }
             }
         }
-    }
 
-    /**
-     * When user removes this field.
-     */
-    delete() {
-        this.onDeleted.emit(this.fieldmodel.id);
+        // Reset subtype value
+        this.fieldForm.patchValue({
+            subtype: ''
+        });
     }
 }

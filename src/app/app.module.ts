@@ -6,11 +6,12 @@ import { AppComponent }  from './app.component';
 import { MainformComponent } from './mainform.component';
 import { FieldRowComponent } from './field.component';
 import { DataService }   from './data.service';
-import {FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ResultComponent} from './result.component';
 
+
 @NgModule({
-  imports:      [ BrowserModule, HttpModule, FormsModule ],
+  imports:      [ BrowserModule, HttpModule, FormsModule, ReactiveFormsModule ],
   declarations: [ AppComponent, MainformComponent, FieldRowComponent, ResultComponent ],
   bootstrap:    [ AppComponent ],
   providers:    [ DataService ]

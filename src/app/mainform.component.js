@@ -11,15 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var data_service_1 = require("./data.service");
-var formfield_1 = require("./formfield");
 var result_component_1 = require("./result.component");
+var forms_1 = require("@angular/forms");
 var MainformComponent = (function () {
     /**
      * Constructor.
      * @param dataService
      */
-    function MainformComponent(dataService) {
+    function MainformComponent(dataService, fb) {
         this.dataService = dataService;
+        this.fb = fb;
         /**
          * Available fields fetch from API.
          * @type {Array}
@@ -52,12 +53,14 @@ var MainformComponent = (function () {
          * @type {Array}
          */
         this.resultType = 'html';
+        this.createForm();
     }
     /**
      * On init
      */
     MainformComponent.prototype.ngOnInit = function () {
         this.loading = true;
+        // this.form = new FormGroup();
         this.dataService.getFields()
             .then(function (dataFields) {
             // Pass api fields
@@ -100,23 +103,12 @@ var MainformComponent = (function () {
      * When User adds a new field in the form
      */
     MainformComponent.prototype.addField = function () {
-        var newFormField = new formfield_1.FormField();
-        var id = 1;
-        if (this.formFields.length > 0) {
-            var lastElement = this.formFields.slice(-1)[0];
-            if (lastElement && lastElement.id) {
-                id = lastElement.id + 1;
-            }
-        }
-        newFormField.id = id;
-        this.formFields.push(newFormField);
-    };
-    /**
-     * Event listener to field deletion.
-     * @param id
-     */
-    MainformComponent.prototype.onFieldDeleted = function (id) {
-        this.deleteField(id);
+        var formGroup = this.fb.group({
+            name: ['', forms_1.Validators.required],
+            typeId: ['', forms_1.Validators.required],
+            subtype: '',
+        });
+        this.fields.push(formGroup);
     };
     /**
      * Delete field with given ID.
@@ -124,12 +116,7 @@ var MainformComponent = (function () {
      * @param id
      */
     MainformComponent.prototype.deleteField = function (id) {
-        for (var i in this.formFields) {
-            if (this.formFields[i].id === id) {
-                // We use +i to convert i to number
-                this.formFields.splice(+i, 1);
-            }
-        }
+        this.fields.removeAt(id);
     };
     MainformComponent.prototype.submitForm = function () {
         var _this = this;
@@ -162,11 +149,19 @@ var MainformComponent = (function () {
     MainformComponent.prototype.onResultTypeChange = function (newValue) {
         this.resultType = newValue;
     };
-    Object.defineProperty(MainformComponent.prototype, "diagnostic", {
-        get: function () { return JSON.stringify(this.result); },
+    MainformComponent.prototype.createForm = function () {
+        this.mainForm = this.fb.group({
+            fields: this.fb.array([]),
+        });
+    };
+    Object.defineProperty(MainformComponent.prototype, "fields", {
+        get: function () {
+            return this.mainForm.get('fields');
+        },
         enumerable: true,
         configurable: true
     });
+    ;
     return MainformComponent;
 }());
 __decorate([
@@ -180,7 +175,7 @@ MainformComponent = __decorate([
         providers: [data_service_1.DataService],
         inputs: ['nbRecords']
     }),
-    __metadata("design:paramtypes", [data_service_1.DataService])
+    __metadata("design:paramtypes", [data_service_1.DataService, forms_1.FormBuilder])
 ], MainformComponent);
 exports.MainformComponent = MainformComponent;
 //# sourceMappingURL=mainform.component.js.map

@@ -3,6 +3,7 @@ import {DataService} from './data.service';
 import {Field} from './field';
 import {FormField} from './formfield';
 import {ResultComponent} from './result.component';
+import {FormArray, FormBuilder, Validators, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'main-form',
@@ -52,17 +53,22 @@ export class MainformComponent implements OnInit {
      */
     resultType: string = 'html';
 
+    mainForm: FormGroup;
+
     /**
      * Constructor.
      * @param dataService
      */
-    constructor(private dataService: DataService) { }
+    constructor(private dataService: DataService, private fb: FormBuilder) {
+        this.createForm();
+    }
 
     /**
      * On init
      */
     ngOnInit() {
         this.loading = true;
+        // this.form = new FormGroup();
         this.dataService.getFields()
             .then(function(dataFields: any) {
                 // Pass api fields
@@ -112,27 +118,13 @@ export class MainformComponent implements OnInit {
      * When User adds a new field in the form
      */
     addField() {
-        let newFormField = new FormField();
-        let id = 1;
+        let formGroup = this.fb.group({
+            name: ['', Validators.required ],
+            typeId: ['', Validators.required ],
+            subtype: '',
+        });
 
-        if (this.formFields.length > 0) {
-            let lastElement = this.formFields.slice(-1)[0];
-            if (lastElement && lastElement.id) {
-                id = lastElement.id + 1;
-            }
-        }
-
-        newFormField.id = id;
-
-        this.formFields.push(newFormField);
-    }
-
-    /**
-     * Event listener to field deletion.
-     * @param id
-     */
-    onFieldDeleted(id: number) {
-        this.deleteField(id);
+        this.fields.push(formGroup);
     }
 
     /**
@@ -141,12 +133,7 @@ export class MainformComponent implements OnInit {
      * @param id
      */
     deleteField(id: number) {
-        for (let i in this.formFields) {
-            if (this.formFields[i].id === id) {
-                // We use +i to convert i to number
-                this.formFields.splice(+i, 1);
-            }
-        }
+        this.fields.removeAt(id);
     }
 
     submitForm() {
@@ -185,5 +172,14 @@ export class MainformComponent implements OnInit {
         this.resultType = newValue;
     }
 
-    get diagnostic() { return JSON.stringify(this.result); }
+    createForm() {
+        this.mainForm = this.fb.group({
+            fields: this.fb.array([]),
+            // fields: this.fb.array([new FormField()]),
+        });
+    }
+
+    get fields(): FormArray {
+        return this.mainForm.get('fields') as FormArray;
+    };
 }
