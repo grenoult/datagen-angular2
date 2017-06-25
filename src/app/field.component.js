@@ -19,10 +19,12 @@ var FieldRowComponent = (function () {
      */
     FieldRowComponent.prototype.selectFieldType = function () {
         var typeId = this.fieldForm.get('typeId').value;
+        var typeName;
         // Check if subtype is mandatory
         for (var _i = 0, _a = this.types; _i < _a.length; _i++) {
             var type = _a[_i];
             if (type && type.id == typeId) {
+                typeName = type.name;
                 if (type.options || type.textinput) {
                     this.fieldForm.controls.subtype.validator = forms_1.Validators.required;
                 }
@@ -33,7 +35,8 @@ var FieldRowComponent = (function () {
         }
         // Reset subtype value
         this.fieldForm.patchValue({
-            subtype: ''
+            subtype: '',
+            type: typeName
         });
     };
     return FieldRowComponent;

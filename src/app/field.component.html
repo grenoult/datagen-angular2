@@ -1,8 +1,10 @@
-<form [formGroup]="fieldForm">
-    <input type="text" formControlName="name" required/>
+<div [formGroup]="fieldForm" style="display: inline-block;">
+    <input type="text" formControlName="name" required class="form-control" placeholder="Field name"/>
     <select
             (change)="selectFieldType()"
             formControlName="typeId"
+            class="form-control"
+            placeholder="Type"
     >
         <!--
             .slice(1) to skip first element of array t hat doesn't exist.
@@ -12,10 +14,10 @@
     </select>
 
     <!-- Sub type selection, if any -->
-    <span *ngIf="fieldForm.get('typeId').value"  >{{ fieldForm.get('typeId').value }}</span>
     <select *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].options"
             required
             formControlName="subtype"
+            class="form-control"
     >
         <option selected disabled [value]="0">{{ types[fieldForm.get('typeId').value].options.name }}</option>
         <option *ngFor="let option of types[fieldForm.get('typeId').value].options.options"
@@ -29,9 +31,6 @@
            [placeholder]="types[fieldForm.get('typeId').value].textinputplaceholder"
            required
            formControlName="subtype"
+           class="form-control"
     />
-
-    <!--{{ diagnostic }}-->
-    <p>Form value: {{ fieldForm.value | json }}</p>
-    <p>Form status: {{ fieldForm.status | json }}</p>
-</form>
+</div>

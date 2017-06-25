@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ResultComponent = (function () {
     function ResultComponent() {
+        this.resultHtml = [];
+        this.resultHtmlHeader = [];
         this.result = [];
     }
     ResultComponent.prototype.ngOnInit = function () { };
@@ -18,7 +20,8 @@ var ResultComponent = (function () {
      * This is easier to deal with in *ngFor loops.
      */
     ResultComponent.prototype.formatResult = function (result) {
-        var newResult = [];
+        var resultHtml = [];
+        var resultHtmlHeader = [];
         var i = 0;
         var resultCsv = '';
         var resultHeaderCsv = '';
@@ -26,20 +29,20 @@ var ResultComponent = (function () {
         var resultHeaderSql = 'INSERT INTO table_name(';
         for (var _i = 0, result_1 = result; _i < result_1.length; _i++) {
             var record = result_1[_i];
-            if (newResult[i] === undefined) {
-                newResult[i] = [];
+            if (resultHtml[i] === undefined) {
+                resultHtml[i] = [];
             }
-            newResult[i + 1] = [];
+            resultHtml[i + 1] = [];
             for (var j in record) {
                 if (record[j]) {
                     // Header
                     if (i === 0) {
-                        newResult[i].push(j);
+                        resultHtmlHeader.push(j);
                         resultHeaderCsv = resultHeaderCsv + j + ';';
                         resultHeaderSql = resultHeaderSql + j + ', ';
                     }
                     // Column
-                    newResult[i + 1].push(record[j]);
+                    resultHtml[i + 1].push(record[j]);
                     resultCsv = resultCsv + record[j] + ';';
                     resultSql = resultSql + '"' + record[j] + '", ';
                 }
@@ -48,9 +51,11 @@ var ResultComponent = (function () {
             resultSql = resultSql.slice(0, -2) + '),\n(';
             i++;
         }
-        this.result = newResult;
+        this.resultHtml = resultHtml;
+        this.resultHtmlHeader = resultHtmlHeader;
         this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
         this.resultSql = resultHeaderSql.slice(0, -2) + ') VALUES \n(' + resultSql.slice(0, -3) + ';';
+        this.result = result;
     };
     return ResultComponent;
 }());

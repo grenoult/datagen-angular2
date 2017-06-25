@@ -111,6 +111,36 @@ export class MainformComponent implements OnInit {
 
                 // Create new field in form
                 this.addField();
+
+                // BEGIN test
+                let i = 0;
+                do {
+                    this.addField();
+                    i = i + 1;
+                } while (i < 10);
+
+
+                let defaultData = {
+                    fields: [
+                        { 'name': 'id', 'typeId': '1', 'type': 'integer', 'subtype': 'increment' },
+                        { 'name': 'firstname', 'typeId': '5', 'type': 'firstname', 'subtype': 'both' },
+                        { 'name': 'lastname', 'typeId': '6', 'type': 'surname', 'subtype': '' },
+                        { 'name': 'stnum', 'typeId': '11', 'type': 'street Number', 'subtype': '' },
+                        { 'name': 'stname', 'typeId': '10', 'type': 'street', 'subtype': '' },
+                        { 'name': 'state', 'typeId': '9', 'type': 'state', 'subtype': '' },
+                        { 'name': 'zip', 'typeId': '8', 'type': 'postcode', 'subtype': '' },
+                        { 'name': 'city', 'typeId': '7', 'type': 'city', 'subtype': '' },
+                        { 'name': 'phone', 'typeId': '4', 'type': 'phone', 'subtype': 'us' },
+                        { 'name': 'startdate', 'typeId': '3', 'type': 'date', 'subtype': 'past' },
+                        { 'name': 'creditcard', 'typeId': '2', 'type': 'regex', 'subtype': '^4[0-9]12(?:[0-9]3)?$' }
+                        ],
+                    nbRecords: '50',
+                    resultType: 'html'
+                };
+                console.log(defaultData);
+                // END
+
+                this.mainForm.setValue(defaultData);
             }.bind(this));
     }
 
@@ -121,6 +151,7 @@ export class MainformComponent implements OnInit {
         let formGroup = this.fb.group({
             name: ['', Validators.required ],
             typeId: ['', Validators.required ],
+            type: '',
             subtype: '',
         });
 
@@ -137,11 +168,11 @@ export class MainformComponent implements OnInit {
     }
 
     submitForm() {
-        let queryFields = {'queryFields': this.formFields, 'records': this.nbRecords};
+        let queryObject = {'queryFields': this.mainForm.value.fields, 'records': this.nbRecords};
 
         this.loading = true;
 
-        this.dataService.submitForm(queryFields)
+        this.dataService.submitForm(queryObject)
             .then((response) => {
                 this.result = response.json();
                 this.resultHtml.formatResult(this.result);
@@ -175,8 +206,18 @@ export class MainformComponent implements OnInit {
     createForm() {
         this.mainForm = this.fb.group({
             fields: this.fb.array([]),
-            // fields: this.fb.array([new FormField()]),
+            nbRecords: '10',
+            resultType: 'html',
         });
+
+        console.log(this.mainForm);
+    }
+
+    resetForm() {
+        for (let i = this.fields.length; i > 1; i--) {
+            this.fields.removeAt(i - 1);
+        }
+        this.fields.reset();
     }
 
     get fields(): FormArray {

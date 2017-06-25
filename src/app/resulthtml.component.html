@@ -1,12 +1,20 @@
-{{ resultType }}
 <div *ngIf="result.length > 0">
     <!-- HTML -->
-    <table *ngIf="resultType == 'html'">
-        <tr *ngFor="let record of result">
-            <td *ngFor="let column of record">
-                {{ column }}
-            </td>
-        </tr>
+    <table class="table" *ngIf="resultType == 'html'">
+        <thead>
+            <tr>
+                <th *ngFor="let record of resultHtmlHeader">
+                    {{ record }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of resultHtml">
+                <td *ngFor="let column of record">
+                    {{ column }}
+                </td>
+            </tr>
+        </tbody>
     </table>
 
     <!-- CSV -->

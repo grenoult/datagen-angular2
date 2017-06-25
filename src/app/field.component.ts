@@ -30,10 +30,12 @@ export class FieldRowComponent {
      */
     selectFieldType() {
         let typeId = this.fieldForm.get('typeId').value;
+        let typeName;
 
         // Check if subtype is mandatory
         for (let type of this.types) {
             if (type && type.id == typeId) {
+                typeName = type.name;
                 if (type.options || type.textinput) {
                     this.fieldForm.controls.subtype.validator = Validators.required;
                 } else {
@@ -44,7 +46,8 @@ export class FieldRowComponent {
 
         // Reset subtype value
         this.fieldForm.patchValue({
-            subtype: ''
+            subtype: '',
+            type: typeName
         });
     }
 }

@@ -8,13 +8,17 @@ import {Component, OnInit} from '@angular/core';
 
 
 export class ResultComponent implements OnInit {
-    result: any[] = [];
+    resultHtml: any[] = [];
+
+    resultHtmlHeader: any[] = [];
 
     resultType: string;
 
     resultCsv: string;
 
     resultSql: string;
+
+    result: any[] = [];
 
     ngOnInit() {};
 
@@ -23,28 +27,30 @@ export class ResultComponent implements OnInit {
      * This is easier to deal with in *ngFor loops.
      */
     formatResult(result: Object[]) {
-        let newResult = [];
+        let resultHtml = [];
+        let resultHtmlHeader = [];
         let i = 0;
         let resultCsv = '';
         let resultHeaderCsv = '';
         let resultSql = '';
         let resultHeaderSql = 'INSERT INTO table_name(';
 
+
         for (let record of result) {
-            if (newResult[i] === undefined) {
-                newResult[i] = [];
+            if (resultHtml[i] === undefined) {
+                resultHtml[i] = [];
             }
-            newResult[i + 1] = [];
+            resultHtml[i + 1] = [];
             for (let j in record) {
                 if (record[j]) {
                     // Header
                     if (i === 0) {
-                        newResult[i].push(j);
+                        resultHtmlHeader.push(j);
                         resultHeaderCsv = resultHeaderCsv + j + ';';
                         resultHeaderSql = resultHeaderSql + j + ', ';
                     }
                     // Column
-                    newResult[i + 1].push(record[j]);
+                    resultHtml[i + 1].push(record[j]);
                     resultCsv = resultCsv + record[j] + ';';
                     resultSql = resultSql + '"' + record[j] + '", ';
                 }
@@ -54,8 +60,10 @@ export class ResultComponent implements OnInit {
             i++;
         }
 
-        this.result = newResult;
+        this.resultHtml = resultHtml;
+        this.resultHtmlHeader = resultHtmlHeader;
         this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
         this.resultSql = resultHeaderSql.slice(0, -2) + ') VALUES \n(' + resultSql.slice(0, -3) + ';';
+        this.result = result;
     }
 }
