@@ -2,7 +2,7 @@
 
 <div [formGroup]="mainForm" novalidate *ngIf="apiFields.length > 0" class="">
     <label>Fields</label>
-    <div class="form-group">
+    <div class="form-group top10">
         <div formArrayName="fields">
             <form *ngFor="let field of fields.controls; let i=index" [formGroupName]="i" class="form-inline">
                 <field
@@ -25,7 +25,7 @@
         </div>
         <!--<input class="btn btn-default" type="button" value="Input">-->
     </div>
-    <div class="form-inline">
+    <div class="form-inline top10">
         <label>Output</label>
         <div class="form-group">
             <label for="nbRecords">Number of records</label>
@@ -37,7 +37,7 @@
             </select>
         </div>
     </div>
-    <div class="form-inline">
+    <div class="form-inline top10">
         <div class="form-group">
             <label for="resultType">Result Type</label>
             <select id="resultType" class="form-control" formControlName="resultType" (ngModelChange)="onResultTypeChange($event)">
@@ -47,9 +47,10 @@
             </select>
         </div>
     </div>
-    <div class="form-inline">
+    <div class="form-inline top10">
         <input class="btn btn-primary" type="button" (click)="submitForm()" value="Submit">
         <input class="btn btn-default" type="button" (click)="resetForm()" value="Clear">
+        <input class="btn btn-default" type="button" (click)="loadPredefinedData()" value="Load Sample Form">
     </div>
 </div>
 <p *ngIf="loading">
@@ -57,5 +58,5 @@
 </p>
 <!--<p>Main Form value: {{ mainForm.value | json }}</p>-->
 <!--<p>Main Form status: {{ mainForm.status | json }}</p>-->
-<resulthtml [resultType]="resultType"></resulthtml>
+<resulthtml [resultType]="resultType" class="row"></resulthtml>
 <!--{{ diagnostic }}-->

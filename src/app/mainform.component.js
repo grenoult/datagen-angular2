@@ -67,62 +67,36 @@ var MainformComponent = (function () {
             this.loading = false;
             var apiFields = dataFields.json();
             var tmpObj = [];
-            for (var i_1 in apiFields) {
+            for (var i in apiFields) {
                 /**
                  * Convert options objects to array
                  * Api gives us options in Objets format
                  * whereas it's easier to deal with an array
                  * in Angular2.
                  */
-                if (apiFields.hasOwnProperty(i_1)) {
-                    if (apiFields[i_1].options) {
+                if (apiFields.hasOwnProperty(i)) {
+                    if (apiFields[i].options) {
                         var optionsArray = [];
-                        for (var key in apiFields[i_1].options.options) {
-                            if (apiFields[i_1].options.options.hasOwnProperty(key)) {
-                                var optionValue = apiFields[i_1].options.options[key];
+                        for (var key in apiFields[i].options.options) {
+                            if (apiFields[i].options.options.hasOwnProperty(key)) {
+                                var optionValue = apiFields[i].options.options[key];
                                 optionsArray.push({
                                     id: key,
                                     name: optionValue
                                 });
                             }
                         }
-                        apiFields[i_1].options.options = optionsArray;
+                        apiFields[i].options.options = optionsArray;
                     }
                     // Assign id to array index
-                    if (apiFields.hasOwnProperty(i_1)) {
-                        tmpObj[apiFields[i_1].id] = apiFields[i_1];
+                    if (apiFields.hasOwnProperty(i)) {
+                        tmpObj[apiFields[i].id] = apiFields[i];
                     }
                 }
             }
             this.apiFields = tmpObj;
             // Create new field in form
             this.addField();
-            // BEGIN test
-            var i = 0;
-            do {
-                this.addField();
-                i = i + 1;
-            } while (i < 10);
-            var defaultData = {
-                fields: [
-                    { 'name': 'id', 'typeId': '1', 'type': 'integer', 'subtype': 'increment' },
-                    { 'name': 'firstname', 'typeId': '5', 'type': 'firstname', 'subtype': 'both' },
-                    { 'name': 'lastname', 'typeId': '6', 'type': 'surname', 'subtype': '' },
-                    { 'name': 'stnum', 'typeId': '11', 'type': 'street Number', 'subtype': '' },
-                    { 'name': 'stname', 'typeId': '10', 'type': 'street', 'subtype': '' },
-                    { 'name': 'state', 'typeId': '9', 'type': 'state', 'subtype': '' },
-                    { 'name': 'zip', 'typeId': '8', 'type': 'postcode', 'subtype': '' },
-                    { 'name': 'city', 'typeId': '7', 'type': 'city', 'subtype': '' },
-                    { 'name': 'phone', 'typeId': '4', 'type': 'phone', 'subtype': 'us' },
-                    { 'name': 'startdate', 'typeId': '3', 'type': 'date', 'subtype': 'past' },
-                    { 'name': 'creditcard', 'typeId': '2', 'type': 'regex', 'subtype': '^4[0-9]12(?:[0-9]3)?$' }
-                ],
-                nbRecords: '50',
-                resultType: 'html'
-            };
-            console.log(defaultData);
-            // END
-            this.mainForm.setValue(defaultData);
         }.bind(this));
     };
     /**
@@ -189,6 +163,36 @@ var MainformComponent = (function () {
             this.fields.removeAt(i - 1);
         }
         this.fields.reset();
+        this.resultHtml.clear();
+    };
+    MainformComponent.prototype.loadPredefinedData = function () {
+        // Remove all existing fields
+        while (this.fields.length > 0) {
+            this.deleteField(0);
+        }
+        var i = 0;
+        do {
+            this.addField();
+            i = i + 1;
+        } while (i < 11);
+        var defaultData = {
+            fields: [
+                { 'name': 'id', 'typeId': '1', 'type': 'integer', 'subtype': 'increment' },
+                { 'name': 'firstname', 'typeId': '5', 'type': 'firstname', 'subtype': 'both' },
+                { 'name': 'lastname', 'typeId': '6', 'type': 'surname', 'subtype': '' },
+                { 'name': 'stnum', 'typeId': '11', 'type': 'street Number', 'subtype': '' },
+                { 'name': 'stname', 'typeId': '10', 'type': 'street', 'subtype': '' },
+                { 'name': 'state', 'typeId': '9', 'type': 'state', 'subtype': '' },
+                { 'name': 'zip', 'typeId': '8', 'type': 'postcode', 'subtype': '' },
+                { 'name': 'city', 'typeId': '7', 'type': 'city', 'subtype': '' },
+                { 'name': 'phone', 'typeId': '4', 'type': 'phone', 'subtype': 'us' },
+                { 'name': 'startdate', 'typeId': '3', 'type': 'date', 'subtype': 'past' },
+                { 'name': 'creditcard', 'typeId': '2', 'type': 'regex', 'subtype': '^4[0-9]12(?:[0-9]3)?$' }
+            ],
+            nbRecords: '10',
+            resultType: 'html'
+        };
+        this.mainForm.setValue(defaultData);
     };
     Object.defineProperty(MainformComponent.prototype, "fields", {
         get: function () {

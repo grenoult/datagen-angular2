@@ -111,36 +111,6 @@ export class MainformComponent implements OnInit {
 
                 // Create new field in form
                 this.addField();
-
-                // BEGIN test
-                let i = 0;
-                do {
-                    this.addField();
-                    i = i + 1;
-                } while (i < 10);
-
-
-                let defaultData = {
-                    fields: [
-                        { 'name': 'id', 'typeId': '1', 'type': 'integer', 'subtype': 'increment' },
-                        { 'name': 'firstname', 'typeId': '5', 'type': 'firstname', 'subtype': 'both' },
-                        { 'name': 'lastname', 'typeId': '6', 'type': 'surname', 'subtype': '' },
-                        { 'name': 'stnum', 'typeId': '11', 'type': 'street Number', 'subtype': '' },
-                        { 'name': 'stname', 'typeId': '10', 'type': 'street', 'subtype': '' },
-                        { 'name': 'state', 'typeId': '9', 'type': 'state', 'subtype': '' },
-                        { 'name': 'zip', 'typeId': '8', 'type': 'postcode', 'subtype': '' },
-                        { 'name': 'city', 'typeId': '7', 'type': 'city', 'subtype': '' },
-                        { 'name': 'phone', 'typeId': '4', 'type': 'phone', 'subtype': 'us' },
-                        { 'name': 'startdate', 'typeId': '3', 'type': 'date', 'subtype': 'past' },
-                        { 'name': 'creditcard', 'typeId': '2', 'type': 'regex', 'subtype': '^4[0-9]12(?:[0-9]3)?$' }
-                        ],
-                    nbRecords: '50',
-                    resultType: 'html'
-                };
-                console.log(defaultData);
-                // END
-
-                this.mainForm.setValue(defaultData);
             }.bind(this));
     }
 
@@ -218,6 +188,41 @@ export class MainformComponent implements OnInit {
             this.fields.removeAt(i - 1);
         }
         this.fields.reset();
+        this.resultHtml.clear();
+    }
+
+    loadPredefinedData() {
+        // Remove all existing fields
+        while (this.fields.length > 0) {
+            this.deleteField(0);
+        }
+
+        let i = 0;
+        do {
+            this.addField();
+            i = i + 1;
+        } while (i < 11);
+
+
+        let defaultData = {
+            fields: [
+                { 'name': 'id', 'typeId': '1', 'type': 'integer', 'subtype': 'increment' },
+                { 'name': 'firstname', 'typeId': '5', 'type': 'firstname', 'subtype': 'both' },
+                { 'name': 'lastname', 'typeId': '6', 'type': 'surname', 'subtype': '' },
+                { 'name': 'stnum', 'typeId': '11', 'type': 'street Number', 'subtype': '' },
+                { 'name': 'stname', 'typeId': '10', 'type': 'street', 'subtype': '' },
+                { 'name': 'state', 'typeId': '9', 'type': 'state', 'subtype': '' },
+                { 'name': 'zip', 'typeId': '8', 'type': 'postcode', 'subtype': '' },
+                { 'name': 'city', 'typeId': '7', 'type': 'city', 'subtype': '' },
+                { 'name': 'phone', 'typeId': '4', 'type': 'phone', 'subtype': 'us' },
+                { 'name': 'startdate', 'typeId': '3', 'type': 'date', 'subtype': 'past' },
+                { 'name': 'creditcard', 'typeId': '2', 'type': 'regex', 'subtype': '^4[0-9]12(?:[0-9]3)?$' }
+            ],
+            nbRecords: '10',
+            resultType: 'html'
+        };
+
+        this.mainForm.setValue(defaultData);
     }
 
     get fields(): FormArray {

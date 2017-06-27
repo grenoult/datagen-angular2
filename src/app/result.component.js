@@ -55,7 +55,16 @@ var ResultComponent = (function () {
         this.resultHtmlHeader = resultHtmlHeader;
         this.resultCsv = resultHeaderCsv.slice(0, -1) + '\n' + resultCsv;
         this.resultSql = resultHeaderSql.slice(0, -2) + ') VALUES \n(' + resultSql.slice(0, -3) + ';';
+        // Trim line breaks
+        this.resultCsv = this.resultCsv.replace(/^\s+|\s+$/g, '');
+        this.resultSql = this.resultSql.replace(/^\s+|\s+$/g, '');
         this.result = result;
+    };
+    ResultComponent.prototype.clear = function () {
+        this.result = [];
+        this.resultHtml = [];
+        this.resultCsv = '';
+        this.resultSql = '';
     };
     return ResultComponent;
 }());
