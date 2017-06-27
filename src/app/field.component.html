@@ -1,36 +1,62 @@
-<div [formGroup]="fieldForm" style="display: inline-block;">
-    <input type="text" formControlName="name" required class="form-control" placeholder="Field name"/>
-    <select
-            (change)="selectFieldType()"
-            formControlName="typeId"
-            class="form-control"
-            placeholder="Type"
+<div [formGroup]="fieldForm"
+     style="display: inline-block;"
+>
+    <span
+        class="form-group"
+        [ngClass]="{'has-error': fieldForm.get('name').invalid && (fieldForm.get('name').dirty || fieldForm.get('name').touched) }"
     >
-        <!--
-            .slice(1) to skip first element of array t hat doesn't exist.
-            Array types start at 1.
-         -->
-        <option *ngFor="let type of types.slice(1)" [value]="type.id">{{type.label}}</option>
-    </select>
-
-    <!-- Sub type selection, if any -->
-    <select *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].options"
-            required
-            formControlName="subtype"
-            class="form-control"
+        <input type="text"
+               formControlName="name"
+               required
+               class="form-control"
+               placeholder="Field name"
+        />
+    </span>
+    <span
+        class="form-group"
+        [ngClass]="{'has-error': fieldForm.get('typeId').invalid && (fieldForm.get('typeId').dirty || fieldForm.get('typeId').touched) }"
     >
-        <option selected disabled [value]="0">{{ types[fieldForm.get('typeId').value].options.name }}</option>
-        <option *ngFor="let option of types[fieldForm.get('typeId').value].options.options"
-                [value]="option.id"
-        >{{option.name}}</option>
-    </select>
-
-    <!-- Sub type text input, if any -->
-    <input type="text"
-           *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].textinput"
-           [placeholder]="types[fieldForm.get('typeId').value].textinputplaceholder"
-           required
-           formControlName="subtype"
-           class="form-control"
-    />
+        <select
+                (change)="selectFieldType()"
+                formControlName="typeId"
+                class="form-control"
+                placeholder="Type"
+        >
+            <!--
+                .slice(1) to skip first element of array t hat doesn't exist.
+                Array types start at 1.
+             -->
+            <option *ngFor="let type of types.slice(1)" [value]="type.id">{{type.label}}</option>
+        </select>
+    </span>
+    <span
+        class="form-group"
+        [ngClass]="{'has-error': fieldForm.get('subtype').invalid && (fieldForm.get('subtype').dirty || fieldForm.get('subtype').touched) }"
+        *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].options"
+    >
+        <!-- Sub type selection, if any -->
+        <select
+                required
+                formControlName="subtype"
+                class="form-control"
+        >
+            <option selected disabled [value]="0">{{ types[fieldForm.get('typeId').value].options.name }}</option>
+            <option *ngFor="let option of types[fieldForm.get('typeId').value].options.options"
+                    [value]="option.id"
+            >{{option.name}}</option>
+        </select>
+    </span>
+    <span
+        class="form-group"
+        [ngClass]="{'has-error': fieldForm.get('subtype').invalid && (fieldForm.get('subtype').dirty || fieldForm.get('subtype').touched) }"
+        *ngIf="fieldForm.get('typeId').value && types[fieldForm.get('typeId').value].textinput"
+    >
+        <!-- Sub type text input, if any -->
+        <input type="text"
+               [placeholder]="types[fieldForm.get('typeId').value].textinputplaceholder"
+               required
+               formControlName="subtype"
+               class="form-control"
+        />
+    </span>
 </div>
