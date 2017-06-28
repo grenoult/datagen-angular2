@@ -127,10 +127,11 @@ var MainformComponent = (function () {
             .then(function (response) {
             _this.result = response.json();
             _this.resultHtml.formatResult(_this.result);
-            // this.formatResult();
+            _this.resultHtml.errorMessage = '';
             _this.loading = false;
         }).catch(function (ex) {
-            console.log(ex);
+            _this.resultHtml.result = [];
+            _this.resultHtml.errorMessage = ex.statusText;
             _this.loading = false;
         });
     };
@@ -156,7 +157,6 @@ var MainformComponent = (function () {
             nbRecords: '10',
             resultType: 'html',
         });
-        console.log(this.mainForm);
     };
     MainformComponent.prototype.resetForm = function () {
         for (var i = this.fields.length; i > 1; i--) {

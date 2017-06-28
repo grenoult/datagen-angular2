@@ -146,10 +146,11 @@ export class MainformComponent implements OnInit {
             .then((response) => {
                 this.result = response.json();
                 this.resultHtml.formatResult(this.result);
-                // this.formatResult();
+                this.resultHtml.errorMessage = '';
                 this.loading = false;
             }).catch((ex) => {
-                console.log(ex);
+                this.resultHtml.result = [];
+                this.resultHtml.errorMessage = ex.statusText;
                 this.loading = false;
             })
         ;
@@ -179,8 +180,6 @@ export class MainformComponent implements OnInit {
             nbRecords: '10',
             resultType: 'html',
         });
-
-        console.log(this.mainForm);
     }
 
     resetForm() {

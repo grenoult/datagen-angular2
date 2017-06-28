@@ -20,6 +20,8 @@ export class ResultComponent implements OnInit {
 
     result: any[] = [];
 
+    errorMessage: string;
+
     ngOnInit() {};
 
     /**
