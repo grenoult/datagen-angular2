@@ -9,12 +9,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
+var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
 var mainform_component_1 = require("./mainform.component");
 var field_component_1 = require("./field.component");
 var data_service_1 = require("./data.service");
 var forms_1 = require("@angular/forms");
 var result_component_1 = require("./result.component");
+var about_component_1 = require("./about.component");
+var help_component_1 = require("./help.component");
+var appRoutes = [
+    { path: 'about', component: about_component_1.AboutComponent },
+    { path: 'help', component: help_component_1.HelpComponent },
+    { path: '',
+        pathMatch: 'full',
+        component: mainform_component_1.MainformComponent
+    },
+    { path: '**', redirectTo: '' }
+];
 var AppModule = (function () {
     function AppModule() {
     }
@@ -22,8 +34,8 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule],
-        declarations: [app_component_1.AppComponent, mainform_component_1.MainformComponent, field_component_1.FieldRowComponent, result_component_1.ResultComponent],
+        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, router_1.RouterModule.forRoot(appRoutes)],
+        declarations: [app_component_1.AppComponent, mainform_component_1.MainformComponent, field_component_1.FieldRowComponent, result_component_1.ResultComponent, about_component_1.AboutComponent, help_component_1.HelpComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [data_service_1.DataService]
     })
