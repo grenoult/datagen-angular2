@@ -8,8 +8,8 @@ export class DataService {
     rootUrl: string;
 
     constructor(private http: Http) {
-        // this.rootUrl = 'http://randomdata.info:8081/api/';
-        this.rootUrl = 'http://192.168.33.10/api/';
+        this.rootUrl = 'http://randomdata.info:8081/api/';
+        // this.rootUrl = 'http://192.168.33.10/api/';
     }
 
     /**
