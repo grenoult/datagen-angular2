@@ -37,9 +37,9 @@ export class FieldRowComponent {
             if (type && type.id == typeId) {
                 typeName = type.name;
                 if (type.options || type.textinput) {
-                    this.fieldForm.controls.subtype.validator = Validators.required;
+                    (this.fieldForm.controls as any).subtype.validator = Validators.required;
                 } else {
-                    this.fieldForm.controls.subtype.validator = undefined;
+                    (this.fieldForm.controls as any).subtype.validator = undefined;
                 }
             }
         }
